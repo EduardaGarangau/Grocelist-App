@@ -12,6 +12,29 @@ abstract class _ShopListStoreBase with Store {
     ItemModel(name: 'Tomatos'),
   ].asObservable();
 
+  @computed
+  int get totalChecked => shopList.where((item) => item.checked).length;
+
+  @computed
+  List<ItemModel> get listFiltered {
+    if (filter.isEmpty) {
+      return shopList;
+    } else {
+      return shopList
+          .where(
+              (item) => item.name.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
+  }
+
+  @observable
+  String filter = '';
+
+  @action
+  setFilter(String value) {
+    filter = value;
+  }
+
   @action
   void addItem(ItemModel item) {
     shopList.add(item);
@@ -20,5 +43,10 @@ abstract class _ShopListStoreBase with Store {
   @action
   void removeItem(ItemModel item) {
     shopList.removeWhere((i) => i.name == item.name);
+  }
+
+  @action
+  void deleteAll() {
+    shopList = ObservableList<ItemModel>();
   }
 }

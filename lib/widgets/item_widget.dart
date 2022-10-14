@@ -4,9 +4,11 @@ import 'package:grocery_list/models/item_model.dart';
 
 class ItemWidget extends StatelessWidget {
   final ItemModel item;
+  final Function() delete;
 
   const ItemWidget({
     Key? key,
+    required this.delete,
     required this.item,
   }) : super(key: key);
 
@@ -35,7 +37,7 @@ class ItemWidget extends StatelessWidget {
                 Icons.remove_circle,
                 color: Theme.of(context).errorColor,
               ),
-              onPressed: () {},
+              onPressed: delete,
             ),
           ),
         );

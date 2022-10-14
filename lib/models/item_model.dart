@@ -17,7 +17,7 @@ abstract class _ItemModelBase with Store {
 
   @action
   void setName(String value) {
-    name = value;
+    name = "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
   }
 
   @action
