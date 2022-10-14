@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:mobx/mobx.dart';
 part 'item_model.g.dart';
 
@@ -7,6 +9,7 @@ abstract class _ItemModelBase with Store {
   _ItemModelBase({
     required this.name,
     this.checked = false,
+    required this.id,
   });
 
   @observable
@@ -14,6 +17,9 @@ abstract class _ItemModelBase with Store {
 
   @observable
   bool checked;
+
+  @observable
+  int id;
 
   @action
   void setName(String value) {

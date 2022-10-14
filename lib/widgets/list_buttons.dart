@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_list/models/item_model.dart';
 
@@ -74,7 +76,10 @@ class ListButtons extends StatelessWidget {
     }
 
     void _dialogAdd() {
-      ItemModel item = ItemModel(name: '');
+      ItemModel item = ItemModel(
+        name: '',
+        id: Random().nextInt(500),
+      );
 
       showDialog(
         context: context,
