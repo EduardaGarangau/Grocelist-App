@@ -4,11 +4,17 @@ import 'package:grocery_list/models/item_model.dart';
 import 'package:grocery_list/stores/shop_list_store.dart';
 import 'package:grocery_list/widgets/item_widget.dart';
 import 'package:grocery_list/widgets/list_buttons.dart';
+import 'package:grocery_list/widgets/list_empty_widget.dart';
 import 'package:grocery_list/widgets/search_progress.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final store = ShopListStore();
@@ -27,14 +33,14 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 color: Colors.white,
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
             ),
             // const SizedBox(width: 10),
             Image.asset(
               'lib/assets/images/appbar2.png',
-              height: 105,
+              height: 80,
               filterQuality: FilterQuality.high,
             ),
           ],
@@ -55,24 +61,41 @@ class HomePage extends StatelessWidget {
                 filter: store.filter,
               );
             }),
-            Expanded(
-              child: Observer(
-                builder: (context) {
-                  return ListView.builder(
-                    itemCount: store.listFiltered.length,
-                    itemBuilder: (context, index) {
-                      ItemModel item = store.listFiltered[index];
-
-                      return ItemWidget(
-                        item: item,
-                        delete: () {
-                          store.removeItem(item);
-                        },
-                      );
-                    },
+            FutureBuilder(
+              future: store.loadItems(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
                   );
-                },
-              ),
+                } else {
+                  return Expanded(
+                    child: Observer(
+                      builder: (context) {
+                        return store.shopList.isEmpty
+                            ? const ListEmptyWidget()
+                            : ListView.builder(
+                                itemCount: store.listFiltered.length,
+                                itemBuilder: (context, index) {
+                                  ItemModel item = store.listFiltered[index];
+
+                                  return ItemWidget(
+                                    item: item,
+                                    delete: () {
+                                      store.removeItem(item);
+                                    },
+                                  );
+                                },
+                              );
+                      },
+                    ),
+                  );
+                }
+              },
             ),
             ListButtons(
               deleteAll: () {

@@ -7,9 +7,19 @@ class ShopListStore = _ShopListStoreBase with _$ShopListStore;
 
 abstract class _ShopListStoreBase with Store {
   @observable
-  ObservableList<ItemModel> shopList = [
-    ItemModel(name: 'Noodles', id: 1),
-  ].asObservable();
+  ObservableList<ItemModel> shopList = ObservableList<ItemModel>();
+
+  Future<void> loadItems() async {
+    final dataList = await DB.getData('items');
+    for (var item in dataList) {
+      ItemModel itemDB = ItemModel(
+        id: item['id'],
+        name: item['name'],
+        checked: item['checked'] == 1 ? true : false,
+      );
+      shopList.add(itemDB);
+    }
+  }
 
   @computed
   int get totalChecked => shopList.where((item) => item.checked).length;
@@ -37,7 +47,6 @@ abstract class _ShopListStoreBase with Store {
   @action
   void addItem(ItemModel item) {
     shopList.add(item);
-    print(item);
     DB.insert(
       'items',
       {
@@ -50,11 +59,16 @@ abstract class _ShopListStoreBase with Store {
 
   @action
   void removeItem(ItemModel item) {
-    shopList.removeWhere((i) => i.name == item.name);
+    shopList.removeWhere((i) => i.id == item.id);
+    DB.delete(
+      'items',
+      item.id,
+    );
   }
 
   @action
   void deleteAll() {
     shopList = ObservableList<ItemModel>();
+    DB.deleteAll('items');
   }
 }

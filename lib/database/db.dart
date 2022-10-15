@@ -20,6 +20,42 @@ class DB {
     await db.insert(
       table,
       data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
+  }
+
+  static Future<List<Map<String, dynamic>>> getData(String table) async {
+    final db = await DB.database();
+    return db.query(table);
+  }
+
+  static Future<void> delete(String table, int id) async {
+    final db = await DB.database();
+    await db.delete(
+      table,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  static Future<void> setChecked(String table, int id, bool check) async {
+    final db = await DB.database();
+
+    Map<String, dynamic> checked = {
+      'checked': check ? 1 : 0,
+    };
+
+    await db.update(
+      table,
+      checked,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  static Future<void> deleteAll(String table) async {
+    final db = await DB.database();
+
+    await db.rawQuery('delete from $table');
   }
 }

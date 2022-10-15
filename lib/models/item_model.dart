@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:grocery_list/database/db.dart';
 import 'package:mobx/mobx.dart';
 part 'item_model.g.dart';
 
@@ -29,5 +30,6 @@ abstract class _ItemModelBase with Store {
   @action
   void setCheck(bool? value) {
     checked = value!;
+    DB.setChecked('items', id, checked);
   }
 }

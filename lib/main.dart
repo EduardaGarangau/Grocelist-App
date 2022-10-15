@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/screens/home_page.dart';
 import 'package:grocery_list/screens/splash_screen.dart';
 
 void main() {
@@ -12,12 +11,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Grocery List',
+      title: 'Grocelist',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
       ),
-      home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }

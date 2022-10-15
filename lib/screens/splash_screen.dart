@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
             opacity: animation,
             child: child,
           ),
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(seconds: 1),
         ),
       ),
     );
