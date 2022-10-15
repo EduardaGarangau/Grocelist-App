@@ -17,94 +17,100 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    //Instanciando a Store
     final store = ShopListStore();
 
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(129, 197, 16, 1),
-      appBar: AppBar(
+    return GestureDetector(
+      //Ao clicar na tela fecha o teclado do TextField de busca e adição de item
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
         backgroundColor: const Color.fromRGBO(129, 197, 16, 1),
-        elevation: 0,
-        toolbarHeight: 100,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Grocery List',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(129, 197, 16, 1),
+          elevation: 0,
+          toolbarHeight: 100,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Grocery List',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            // const SizedBox(width: 10),
-            Image.asset(
-              'lib/assets/images/appbar2.png',
-              height: 80,
-              filterQuality: FilterQuality.high,
-            ),
-          ],
+              Image.asset(
+                'lib/assets/images/appbar2.png',
+                height: 80,
+                filterQuality: FilterQuality.high,
+              ),
+            ],
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
-        child: Column(
-          children: [
-            Observer(builder: (context) {
-              return SearchAndProgress(
-                setFilter: store.setFilter,
-                itemsChecked: store.totalChecked,
-                listLength: store.shopList.length,
-                filter: store.filter,
-              );
-            }),
-            FutureBuilder(
-              future: store.loadItems(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: Column(
+            children: [
+              //Passa propriedades da Store para serem usadas no widget
+              Observer(builder: (context) {
+                return SearchAndProgress(
+                  setFilter: store.setFilter,
+                  itemsChecked: store.totalChecked,
+                  listLength: store.shopList.length,
+                  filter: store.filter,
+                );
+              }),
+              FutureBuilder(
+                //Espera recuperar os itens no BD para construir a lista
+                future: store.loadItems(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
                       ),
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Observer(
-                      builder: (context) {
-                        return store.shopList.isEmpty
-                            ? const ListEmptyWidget()
-                            : ListView.builder(
-                                itemCount: store.listFiltered.length,
-                                itemBuilder: (context, index) {
-                                  ItemModel item = store.listFiltered[index];
+                    );
+                  } else {
+                    return Expanded(
+                      child: Observer(
+                        builder: (context) {
+                          return store.shopList.isEmpty
+                              ? const ListEmptyWidget()
+                              : ListView.builder(
+                                  itemCount: store.listFiltered.length,
+                                  itemBuilder: (context, index) {
+                                    ItemModel item = store.listFiltered[index];
 
-                                  return ItemWidget(
-                                    item: item,
-                                    delete: () {
-                                      store.removeItem(item);
-                                    },
-                                  );
-                                },
-                              );
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-            ListButtons(
-              deleteAll: () {
-                store.deleteAll();
-                Navigator.of(context).pop();
-              },
-              addItem: store.addItem,
-            ),
-          ],
+                                    return ItemWidget(
+                                      item: item,
+                                      delete: () {
+                                        store.removeItem(item);
+                                      },
+                                    );
+                                  },
+                                );
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
+              ListButtons(
+                deleteAll: () {
+                  store.deleteAll();
+                  Navigator.of(context).pop();
+                },
+                addItem: store.addItem,
+              ),
+            ],
+          ),
         ),
       ),
     );

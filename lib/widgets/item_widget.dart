@@ -27,9 +27,10 @@ class ItemWidget extends StatelessWidget {
             ),
             title: Text(
               item.name,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Poppins',
                 color: Colors.black,
+                decoration: item.checked ? TextDecoration.lineThrough : null,
               ),
             ),
             trailing: IconButton(

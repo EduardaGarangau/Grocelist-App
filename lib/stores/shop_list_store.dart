@@ -6,9 +6,11 @@ part 'shop_list_store.g.dart';
 class ShopListStore = _ShopListStoreBase with _$ShopListStore;
 
 abstract class _ShopListStoreBase with Store {
+  //Lista vazia sempre ao iniciar o app
   @observable
   ObservableList<ItemModel> shopList = ObservableList<ItemModel>();
 
+  //Método para recuperar os items do banco de dados e adiciona a ObservableList
   Future<void> loadItems() async {
     final dataList = await DB.getData('items');
     for (var item in dataList) {
@@ -21,9 +23,11 @@ abstract class _ShopListStoreBase with Store {
     }
   }
 
+  //Método get de quantos items estão concluídos, checked == true
   @computed
   int get totalChecked => shopList.where((item) => item.checked).length;
 
+  //Método para filtrar a lista
   @computed
   List<ItemModel> get listFiltered {
     if (filter.isEmpty) {
@@ -44,6 +48,7 @@ abstract class _ShopListStoreBase with Store {
     filter = value;
   }
 
+  //Método para adicionar item na ObservableList e no banco de dados
   @action
   void addItem(ItemModel item) {
     shopList.add(item);
@@ -57,6 +62,7 @@ abstract class _ShopListStoreBase with Store {
     );
   }
 
+  //Método para excluir item na ObservableList e no banco de dados
   @action
   void removeItem(ItemModel item) {
     shopList.removeWhere((i) => i.id == item.id);
@@ -66,6 +72,7 @@ abstract class _ShopListStoreBase with Store {
     );
   }
 
+  //Método para excluir todos os itens da ObservableList e do banco de dados
   @action
   void deleteAll() {
     shopList = ObservableList<ItemModel>();

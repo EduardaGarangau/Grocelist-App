@@ -15,6 +15,7 @@ class ListButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Dialog para ter certeza se o usuário deseja excluir todos os items
     void _deleteDialog() {
       showDialog(
         context: context,
@@ -75,6 +76,7 @@ class ListButtons extends StatelessWidget {
       );
     }
 
+    //Dialog para adicionar item
     void _dialogAdd() {
       ItemModel item = ItemModel(
         name: '',
@@ -95,7 +97,12 @@ class ListButtons extends StatelessWidget {
               ),
             ),
             content: TextField(
+              autofocus: true,
               textInputAction: TextInputAction.done,
+              style: const TextStyle(
+                color: Colors.black,
+                fontFamily: 'Poppins',
+              ),
               onSubmitted: (_) {
                 addItem(item);
                 Navigator.of(context).pop();
@@ -167,7 +174,7 @@ class ListButtons extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Colors.green,
+                backgroundColor: Colors.green,
               ),
               onPressed: _dialogAdd,
             ),
@@ -185,7 +192,7 @@ class ListButtons extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).errorColor,
+                backgroundColor: Theme.of(context).errorColor,
               ),
               onPressed: _deleteDialog,
             ),

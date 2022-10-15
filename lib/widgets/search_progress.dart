@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class SearchAndProgress extends StatelessWidget {
+class SearchAndProgress extends StatefulWidget {
   final Function(String) setFilter;
   final String filter;
   final int itemsChecked;
@@ -16,22 +16,42 @@ class SearchAndProgress extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SearchAndProgress> createState() => _SearchAndProgressState();
+}
+
+class _SearchAndProgressState extends State<SearchAndProgress> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
           child: TextField(
-            onChanged: setFilter,
+            controller: _controller,
+            onChanged: widget.setFilter,
             style: const TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',
             ),
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                icon: Icon(filter.isEmpty ? Icons.search : Icons.clear),
+                icon: Icon(widget.filter.isEmpty ? Icons.search : Icons.clear),
                 color: Colors.white,
-                onPressed: filter.isNotEmpty ? () => setFilter('') : () {},
+                onPressed: widget.filter.isNotEmpty
+                    ? () {
+                        widget.setFilter('');
+                        _controller.text = '';
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      }
+                    : () {},
               ),
               hintText: 'Search...',
               hintStyle: const TextStyle(
@@ -59,14 +79,16 @@ class SearchAndProgress extends StatelessWidget {
           child: CircularPercentIndicator(
             radius: 30,
             lineWidth: 6,
-            percent: listLength == 0 ? 0 : itemsChecked / listLength,
+            percent: widget.listLength == 0
+                ? 0
+                : widget.itemsChecked / widget.listLength,
             animation: true,
             progressColor: Colors.green,
             backgroundColor: Colors.white,
             animateFromLastPercent: true,
             animationDuration: 500,
             center: Text(
-              '$itemsChecked/$listLength',
+              '${widget.itemsChecked}/${widget.listLength}',
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 15,

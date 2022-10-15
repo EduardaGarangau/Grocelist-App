@@ -29,19 +29,25 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    //Timer da Splash Screen
+    //Timer da Splash Screen para mudar de tela
     Timer(
-      const Duration(seconds: 5),
+      const Duration(seconds: 3),
       () => Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               const HomePage(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          transitionDuration: const Duration(seconds: 1),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const curve = Curves.linear;
+
+            var tween =
+                Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: curve));
+
+            return FadeTransition(
+              opacity: animation.drive(tween),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 2000),
         ),
       ),
     );
