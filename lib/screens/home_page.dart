@@ -93,6 +93,8 @@ class _HomePageState extends State<HomePage> {
                                       delete: () {
                                         store.removeItem(item);
                                       },
+                                      totalChecked: store.totalChecked,
+                                      listLength: store.shopList.length,
                                     );
                                   },
                                 );

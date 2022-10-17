@@ -72,6 +72,7 @@ flutter:
     - lib/assets/images/logo.png
     - lib/assets/images/logo2.png
     - lib/assets/images/appbar2.png
+    - lib/assets/images/success.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

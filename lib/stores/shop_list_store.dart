@@ -27,6 +27,12 @@ abstract class _ShopListStoreBase with Store {
   @computed
   int get totalChecked => shopList.where((item) => item.checked).length;
 
+  @computed
+  bool get allItemsDone {
+    int checkedItems = shopList.where((item) => item.checked).length;
+    return checkedItems == shopList.length;
+  }
+
   //Método para filtrar a lista
   @computed
   List<ItemModel> get listFiltered {

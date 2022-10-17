@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_list/screens/home_page.dart';
 import 'package:grocery_list/screens/splash_screen.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const SplashScreen(),
+      home: const HomePage(),
     );
   }
 }

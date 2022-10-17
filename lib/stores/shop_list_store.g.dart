@@ -16,6 +16,13 @@ mixin _$ShopListStore on _ShopListStoreBase, Store {
       (_$totalCheckedComputed ??= Computed<int>(() => super.totalChecked,
               name: '_ShopListStoreBase.totalChecked'))
           .value;
+  Computed<bool>? _$allItemsDoneComputed;
+
+  @override
+  bool get allItemsDone =>
+      (_$allItemsDoneComputed ??= Computed<bool>(() => super.allItemsDone,
+              name: '_ShopListStoreBase.allItemsDone'))
+          .value;
   Computed<List<ItemModel>>? _$listFilteredComputed;
 
   @override
@@ -109,6 +116,7 @@ mixin _$ShopListStore on _ShopListStoreBase, Store {
 shopList: ${shopList},
 filter: ${filter},
 totalChecked: ${totalChecked},
+allItemsDone: ${allItemsDone},
 listFiltered: ${listFiltered}
     ''';
   }
