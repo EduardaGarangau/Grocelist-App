@@ -1,4 +1,5 @@
 import 'package:grocery_list/database/db.dart';
+import 'package:grocery_list/exceptions/shoplist_exception.dart';
 import 'package:grocery_list/models/item_model.dart';
 import 'package:mobx/mobx.dart';
 part 'shop_list_store.g.dart';
@@ -81,7 +82,11 @@ abstract class _ShopListStoreBase with Store {
   //Método para excluir todos os itens da ObservableList e do banco de dados
   @action
   void deleteAll() {
-    shopList = ObservableList<ItemModel>();
-    DB.deleteAll('items');
+    try {
+      shopList = ObservableList<ItemModel>();
+      DB.deleteAll('items');
+    } catch (e) {
+      if (shopList.isEmpty) throw ShopListException(msg: 'List already empty');
+    }
   }
 }
