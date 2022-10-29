@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list/screens/home_page.dart';
 import 'package:grocery_list/screens/splash_screen.dart';
 
 void main() {
@@ -12,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Grocelist',
+      title: 'Grocelist App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }

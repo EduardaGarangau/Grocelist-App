@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grocery_list/models/item_model.dart';
@@ -20,34 +18,6 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _completedDialog() {
-      showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(const Duration(seconds: 5), () {
-            Navigator.of(context).pop(true);
-          });
-          return AlertDialog(
-            backgroundColor: const Color.fromRGBO(235, 239, 241, 2),
-            title: Image.asset(
-              'lib/assets/images/success.gif',
-              height: 200,
-            ),
-            content: const Text(
-              'List Completed!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 20,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          );
-        },
-      );
-    }
-
     return Observer(
       builder: (context) {
         return Card(
@@ -59,9 +29,6 @@ class ItemWidget extends StatelessWidget {
               value: item.checked,
               onChanged: (value) {
                 item.setCheck(value);
-                if (totalChecked == listLength) {
-                  _completedDialog();
-                }
               },
             ),
             title: Text(
