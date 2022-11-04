@@ -7,3 +7,6 @@ To build this app we use:
 - Dart
 - MobX for State Management
 - SQLite 
+
+
+![APP](lib/assets/images/app.png)
