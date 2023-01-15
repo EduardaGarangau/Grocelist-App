@@ -9,6 +9,7 @@ Projeto de lista de compras.
 - Banco de Dados `SQLite` 
 - Navegação de Telas 
 - Formulário
+- Testes Unitários
 
 ## Resultado Final
 ![APP](lib/assets/images/app.png)
