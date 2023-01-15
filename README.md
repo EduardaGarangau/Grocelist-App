@@ -1,12 +1,14 @@
-# Grocelist - A Grocery List 
+# 📱 Grocelist App 
 
-With this app users will be able to make their grocery list in the simplest way possible. 
+Projeto de lista de compras. 
 
-To build this app we use:
-- Flutter
-- Dart
-- MobX for State Management
-- SQLite 
+## Desenvolvimento
+* Versão Flutter `3.3.7`
+- Dart `null safety`
+- Gerência de Estado com `MobX` e `Streams`
+- Banco de Dados `SQLite` 
+- Navegação de Telas 
+- Formulário
 
-
+## Resultado Final
 ![APP](lib/assets/images/app.png)
